@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { Calendar, CalendarCheck, FileText, Info } from 'lucide-react';
-import type { ElectionData } from '../../services/civicApi';
+import type { Election } from '../../services/civicApi';
 
 interface ElectionDetailsProps {
-  election: ElectionData;
+  election: Election;
 }
 
 export const ElectionDetails = ({ election }: ElectionDetailsProps) => {
