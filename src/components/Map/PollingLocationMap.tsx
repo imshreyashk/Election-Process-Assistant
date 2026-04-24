@@ -30,11 +30,11 @@ export const PollingLocationMap = ({ locations, userOrigin }: PollingLocationMap
   const center = useMemo(() => {
     if (locations && locations.length > 0) {
       return {
-        lat: locations[0].latitude,
-        lng: locations[0].longitude
+        lat: locations[0].latitude ?? 0,
+        lng: locations[0].longitude ?? 0
       };
     }
-    return { lat: 37.7749, lng: -122.4194 }; // Default fallback
+    return { lat: 0, lng: 0 }; // Default fallback
   }, [locations]);
 
   const handleMarkerClick = (loc: PollingLocation) => {
@@ -187,15 +187,15 @@ export const PollingLocationMap = ({ locations, userOrigin }: PollingLocationMap
                 Hours: {selectedLocation.pollingHours}
               </p>
               {directionsResponse && directionsResponse.routes[0]?.legs[0] && (
-                 <div style={{ marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid #ccc' }}>
-                   <p style={{ margin: 0, fontSize: '0.875rem' }}>
-                     <strong>Distance:</strong> {directionsResponse.routes[0].legs[0].distance?.text} <br/>
-                     <strong>Time:</strong> {directionsResponse.routes[0].legs[0].duration?.text}
-                   </p>
-                 </div>
+                <div style={{ marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid #ccc' }}>
+                  <p style={{ margin: 0, fontSize: '0.875rem' }}>
+                    <strong>Distance:</strong> {directionsResponse.routes[0].legs[0].distance?.text} <br />
+                    <strong>Time:</strong> {directionsResponse.routes[0].legs[0].duration?.text}
+                  </p>
+                </div>
               )}
               {directionsError && (
-                 <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.75rem', color: 'red' }}>{directionsError}</p>
+                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.75rem', color: 'red' }}>{directionsError}</p>
               )}
             </div>
           </InfoWindow>
