@@ -4,6 +4,7 @@ import { ChevronRight, ChevronLeft, CheckCircle2 } from 'lucide-react';
 import { AddressSearch } from '../AddressSearch/AddressSearch';
 import { ElectionDetails } from '../ElectionInfo/ElectionDetails';
 import { PollingLocationMap } from '../Map/PollingLocationMap';
+import { Skeleton } from '../ui/Skeleton';
 import { fetchElectionInfo, type CivicResponse } from '../../services/civicApi';
 
 const steps = [
@@ -14,6 +15,7 @@ const steps = [
 
 export const Stepper = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [userAddress, setUserAddress] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [electionData, setElectionData] = useState<CivicResponse | null>(null);
@@ -21,6 +23,7 @@ export const Stepper = () => {
   const handleSearch = async (address: string) => {
     setIsLoading(true);
     setError(null);
+    setUserAddress(address);
     try {
       const data = await fetchElectionInfo(address);
       setElectionData(data);
@@ -97,44 +100,43 @@ export const Stepper = () => {
       )}
 
       {/* Step Content */}
-      <div style={{ position: 'relative', minHeight: '400px' }}>
+      <div style={{ position: 'relative', minHeight: '400px' }} aria-live="polite" aria-atomic="true">
+        <span className="sr-only">Current Step: {steps[currentStep - 1].title}</span>
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentStep}
+            key={isLoading ? 'loading' : currentStep}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
             style={{ width: '100%', position: 'absolute' }}
           >
-            {currentStep === 1 && (
+            {isLoading ? (
+              <Skeleton />
+            ) : currentStep === 1 ? (
               <AddressSearch onSearch={handleSearch} isLoading={isLoading} />
-            )}
-
-            {currentStep === 2 && electionData && (
+            ) : currentStep === 2 && electionData ? (
               <ElectionDetails election={electionData.election} />
-            )}
-
-            {currentStep === 3 && electionData && (
-              <PollingLocationMap locations={electionData.pollingLocations} />
-            )}
+            ) : currentStep === 3 && electionData ? (
+              <PollingLocationMap locations={electionData.pollingLocations || []} userOrigin={userAddress} />
+            ) : null}
           </motion.div>
         </AnimatePresence>
       </div>
 
       {/* Navigation Buttons */}
-      {currentStep > 1 && (
+      {currentStep > 1 && !isLoading && (
         <div className="flex justify-between" style={{ marginTop: '2rem' }}>
-          <button onClick={prevStep} className="btn btn-secondary">
+          <button onClick={prevStep} className="btn btn-secondary" aria-label="Go to previous step">
             <ChevronLeft size={20} /> Back
           </button>
 
           {currentStep < steps.length ? (
-            <button onClick={nextStep} className="btn btn-primary">
+            <button onClick={nextStep} className="btn btn-primary" aria-label="Go to next step">
               Next Step <ChevronRight size={20} />
             </button>
           ) : (
-            <button onClick={() => setCurrentStep(1)} className="btn btn-primary">
+            <button onClick={() => setCurrentStep(1)} className="btn btn-primary" aria-label="Start over from the beginning">
               Start Over
             </button>
           )}

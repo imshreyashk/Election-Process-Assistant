@@ -10,7 +10,7 @@ export const Header = () => {
           </div>
           <h2 style={{ marginBottom: 0, fontSize: '1.25rem' }}>Election Process Assistant</h2>
         </div>
-        <nav className="flex gap-4">
+        <nav className="flex gap-4" aria-label="Main Navigation">
           <a href="#" className="text-muted">Home</a>
           <a href="#" className="text-muted">Resources</a>
           <a href="#" className="text-muted">About</a>

@@ -42,12 +42,12 @@ export const AddressSearch = ({ onSearch, isLoading }: AddressSearchProps) => {
               onChange={(e) => setAddress(e.target.value)}
               required
             />
-            <button type="submit" className="btn btn-primary" disabled={isLoading || !address.trim()}>
+            <button type="submit" className="btn btn-primary" disabled={isLoading || !address.trim()} aria-label="Search for election information">
               {isLoading ? (
                 <span>Loading...</span>
               ) : (
                 <>
-                  <Search size={20} />
+                  <Search size={20} aria-hidden="true" />
                   <span>Search</span>
                 </>
               )}
