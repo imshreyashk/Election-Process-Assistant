@@ -46,3 +46,22 @@ A premium, interactive web application designed to guide voters through the elec
 - Lucide React (Icons)
 - Google Maps API (`@react-google-maps/api`)
 - Google Civic Information API (Mocked by default for immediate preview)
+
+- # 🗳️ Election Process Assistant  
+**Vertical:** Civic Educator  
+
+## 🚀 Our Approach  
+We built a smart, interactive assistant designed to simplify the complex election process. Using a step-by-step "Wizard" flow, we guide users from basic registration awareness to finding their live polling location.
+
+## 🧠 Logic & Context  
+- **Context-Aware Stepper:** The UI prevents users from moving to "Polling Locations" until they have provided a valid address.
+- **Dynamic Data:** Real-time fetching of election dates ensures users never see outdated info.
+
+## 🛠️ Google Services Integrated  
+- **Google Civic Information API:** Powers the core election data and registration deadlines.  
+- **Google Maps JavaScript API:** Provides the interactive map for polling site visualization.  
+
+## 💡 Assumptions  
+- Users are looking for US-based election information (supported by the Civic API).
+- Users have a modern browser with Geolocation or manual address entry.
+
